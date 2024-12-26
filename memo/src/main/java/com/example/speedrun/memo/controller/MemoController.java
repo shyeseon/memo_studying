@@ -1,9 +1,7 @@
 package com.example.speedrun.memo.controller;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.speedrun.memo.dto.MemoRequestDto;
 import com.example.speedrun.memo.dto.MemoResponseDto;
-import com.example.speedrun.memo.entity.Memo;
+import com.example.speedrun.memo.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,20 +23,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 @Slf4j
 public class MemoController {
+	
+	private final BoardService boardService;
 
-	public final Map<Long, Memo> memoList = new HashMap<>();
+	public MemoController(BoardService boardService) {
+		this.boardService = boardService;
+	}
+ 
 	
 	@PostMapping("/memos")
 	public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {
-		//requestDto를 entity로 변환
-		Memo memo = new Memo(requestDto);
-		long maxId = memoList.size()>0 ? Collections.max(memoList.keySet())+1 : 1;
-		memo.setId(maxId);
-		memoList.put(memo.getId(), memo);
-		//entity를 dto로 변환
-		MemoResponseDto memoResponseDto = new MemoResponseDto(memo);
+		return boardService.createMemo(requestDto);
 		
-		return memoResponseDto;
 	}
 	@GetMapping("/memos")
 	public List<MemoResponseDto> getMemos() {
