@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+
 @Getter
 @NoArgsConstructor
 @Builder
@@ -20,13 +20,14 @@ public class MemoResponseDto {
 
 	private Long id;
 	private String username;
+	private String title;
 	private String contents;
 	
 	
 	public static MemoResponseDto EntityToResponseDto(Board board) {
 		return MemoResponseDto.builder()
 				.id(board.getBoard_id())
-				.username(board.getMember_id())
+				.title(board.getTitle())
 				.contents(board.getBoard_content())
 				.build();
 	}

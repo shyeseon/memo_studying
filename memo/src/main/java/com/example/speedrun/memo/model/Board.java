@@ -24,38 +24,37 @@ import lombok.ToString;
 @Entity
 @Getter
 @NoArgsConstructor
-@Builder
 @ToString
 @AllArgsConstructor
-
+@Builder
 public class Board implements Serializable {
 
 	 @ManyToOne(fetch = FetchType.LAZY)  // Lazy 로딩 적용
-	 @JoinColumn(name = "member_id")
-	private String member_id;
+	 @JoinColumn(name = "member_name")
+	private Member member;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long board_id;
 	
-	private String board_content;
+	private String title;
 	
+	private String board_content;
 	
 	@CurrentTimestamp
 	private Date created_at;
-	
-	 public static Board RequestDtotoEntity(MemoRequestDto dto) {
+
+	 public static Board RequestDtotoEntity(MemoRequestDto dto, Member member) {
 	        return Board.builder()
 	        		.board_id(dto.getId())
 	        		.board_content(dto.getContents())
-	        		.member_id(dto.getUsername())
+	        		.member(member)
 	                .build();
 	    }
 	 public static Board ResponseDtotoEntity(MemoResponseDto dto) {
 	        return Board.builder()
 	        		.board_id(dto.getId())
 	        		.board_content(dto.getContents())
-	        		.member_id(dto.getUsername())
 	                .build();
 	    }
 	
