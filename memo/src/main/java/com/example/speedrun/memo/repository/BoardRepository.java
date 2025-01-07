@@ -8,4 +8,5 @@ import com.example.speedrun.memo.model.Board;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
+
 }
