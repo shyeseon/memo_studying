@@ -26,16 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MemoController {
 	
 	private final BoardService boardService;
-	private final MemberService memberService;
 
 	public MemoController(BoardService boardService,MemberService memberService) {
 		this.boardService = boardService;
-		this.memberService = memberService;
 	}
  
 	
 	@PostMapping("/memos")
-	public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {;
+	public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {
 		return boardService.createMemo(requestDto);
 		
 	}
@@ -51,7 +49,6 @@ public class MemoController {
 
 	@DeleteMapping("/memos/{id}")
 	public void deleteMemo(@PathVariable("id") Long id) {
-		System.out.println("id"+id);
 		boardService.deleteMemo(id);
 	}
 

@@ -14,6 +14,8 @@ import com.example.speedrun.memo.model.Member;
 import com.example.speedrun.memo.repository.BoardRepository;
 import com.example.speedrun.memo.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BoardService {
 	
@@ -24,6 +26,7 @@ public class BoardService {
 	private MemberRepository memberRepo;
 	
 
+	@Transactional
 	public MemoResponseDto createMemo(MemoRequestDto requestDto) {
 		// 기존 Member 조회
 	    Member existingMember = memberRepo.findById(1L).get();
@@ -45,6 +48,7 @@ public class BoardService {
 	}
 
 
+	@Transactional
 	public void updateMemo(MemoUpdateDto requestDto) {
 		Board board = boardRepo.findById(requestDto.getId()).orElseThrow(()-> new IllegalArgumentException("메모를 찾을 수 없습니다."));
 		board.setTitle(requestDto.getTitle());
