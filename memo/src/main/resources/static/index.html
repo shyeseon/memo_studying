@@ -208,6 +208,16 @@ height: 18px;
 #cards-box {
 margin-top: 12px;
 }
+
+#loginBtn{
+	font-size: medium;
+	border: none;
+	background-color: rgb(191, 191, 255); ;
+	text-decoration: underline;
+}
+.button{
+	text-align: end;
+}
 </style>
 	</head>
 	<body>
@@ -217,6 +227,9 @@ margin-top: 12px;
 	</div>
 	<div class="wrap">
 	<div class="header">
+	<div class ="button">
+	<button id="loginBtn" onclick="Tologin()">LOGIN</button>
+	</div>
 	<h2>Memo</h2>
 	<p>
 	혜선이의 메모장
@@ -398,6 +411,9 @@ margin-top: 12px;
 		window.location.reload();
 		}
 		})
+		}
+		function Tologin(){
+			window.location.href="login.html";
 		}
 		</script>
 	</body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<body lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -259,6 +259,7 @@
 
 	footer a {
 	    color: #3c97bf;
+		}
 	  
 </style>
 </head>
@@ -266,20 +267,20 @@
 	<div class="container" id="container">
 	  <div class="form-container sign-up-container">
 	    <form action="#">
-	      <h1>Create Account</h1>iv>
-	      <input type="text" placeholder="Name" />
-	      <input type="email" placeholder="Email" />
-	      <input type="password" placeholder="Password" />
-	      <button>Sign Up</button>
+	      <h1>Create Account</h1>
+	      <input type="text" id="signName" placeholder="Name" />
+	      <input type="email" id="signId" placeholder="Email" />
+	      <input type="password" id="signPw" placeholder="Password" />
+	      <button onclick="signBtn()">Sign Up</button>
 	    </form>
 	  </div>
 	  <div class="form-container sign-in-container">
-	    <form action="#">
+	    <form>
 	      <h1 id="title">Sign in</h1>
-	      <input type="email" placeholder="Email" />
-	      <input type="password" placeholder="Password" />
+	      <input type="email" id="email" placeholder="Email" />
+	      <input type="password" id="password" placeholder="Password" />
 	      <a href="#">Forgot your password?</a>
-	      <button>Sign In</button>
+	      <button onclick="login()" >Sign In</button>
 	    </form>
 	  </div>
 	  <div class="overlay-container">
@@ -297,5 +298,79 @@
 	    </div>
 	  </div>
 	</div>
+<script>
+	const signUpButton = document.getElementById('signUp');
+	const signInButton = document.getElementById('signIn');
+	const container = document.getElementById('container');
+
+	signUpButton.addEventListener('click', () => {
+	  container.classList.add("right-panel-active");
+	});
+
+	signInButton.addEventListener('click', () => {
+	  container.classList.remove("right-panel-active");
+	});
+	function signBtn(){
+		let name = $("#signName").val();
+		let memberId = $("#signId").val();
+		let password = $("#signPw").val();
+		if(!name){
+			alert("이름을 입력해주세요");
+			return false;
+		}else if(!memberId){
+			alert("이메일을 입력해주세요");
+			return false;
+		}else if(!password){
+			alert("패스워드를 입력해주세요");
+			return false;
+		}
+		let data = {'name': name, 'memberId': memberId, 'password': password};
+		$.ajax({
+				type: "POST",
+				url: "/api/signUp",
+				contentType: "application/json",
+				data: JSON.stringify({
+					memberName: data.name,
+					memberId:data.memberId,
+					memberPw:data.password
+				}),
+				success: function (response) {
+				alert('회원가입이 성공적으로 완료되었습니다.');
+				window.location.reload();
+				}
+				});
+				}
+	function login(){
+		let memberId = $("#email").val();
+		let password = $("#password").val();
+		if (!memberId || !password) { // 값이 비어있거나 null인 경우
+		     alert("입력 값을 확인해주세요");
+		     return; // 함수 실행 중단
+		 }
+		let data = {'memberId':memberId,'password':password };
+		console.log(data.memberId);
+		$.ajax({
+			type:"POST",
+			url:'/api/login',
+			contentType: "application/json",
+			data: JSON.stringify({
+				memberId: data.memberId,
+				memberPw:data.password
+			}),
+			success:function(response){
+				console.log("response"+response);
+				if(response=='success'){
+					alert("로그인에 성공하였습니다");
+					window.location.href="index.html"
+				}else{
+					alert("로그인 정보가 존재하지 않습니다 ");
+					window.location.reload();
+				}
+				
+			}
+		});
+	};
+
+	</script>
 </body>
 </html>

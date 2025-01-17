@@ -3,7 +3,7 @@ package com.example.speedrun.memo.model;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.annotations.DynamicUpdate;
+import com.example.speedrun.memo.dto.MemberRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,14 +24,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
+@Builder
 public class Member implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy  = GenerationType.IDENTITY)
-	@Column(name="member_id")
-	public Long memberId;
+	@Column(name="id")
+	public Long id;
 	
-	@Column(name = "member_name", unique = true)
+	@Column(name = "member_id", unique=true)
+	public String memberId;
+	
+	@Column(name = "member_name")
 	public String memberName;
 	
 	@Column(name="member_pw")
@@ -40,7 +44,8 @@ public class Member implements Serializable {
 	@OneToMany
 	public List<Board> boards;
 	
-	public Member(Long memberId, String memberName, String memberPw) {
+	public Member(Long id, String memberId, String memberName, String memberPw) {
+		this.id=id;
 		this.memberId = memberId;
 		this.memberName = memberName;
 		this.memberPw = memberPw;
@@ -49,5 +54,11 @@ public class Member implements Serializable {
 	public Member(String userName) {
 		this.memberName = userName;
 	}
-
+	public static  MemberRequestDto toEntity(MemberRequestDto dto) {
+		return MemberRequestDto.builder()
+				.memberId(dto.getMemberId())
+				.memberName(dto.getMemberName())
+				.memberPw(dto.getMemberPw())
+				.build();
+	}
 }
