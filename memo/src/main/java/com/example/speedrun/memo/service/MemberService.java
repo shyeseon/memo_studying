@@ -8,6 +8,7 @@ import com.example.speedrun.memo.dto.MemberRequestDto;
 import com.example.speedrun.memo.model.Member;
 import com.example.speedrun.memo.repository.MemberRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 
@@ -26,15 +27,9 @@ public class MemberService {
 	}
 
 	public boolean findmem(MemberRequestDto dto) {
-		Member member = memberRepo.findByMemberId(dto.getMemberId()).get();
-
-		System.out.println("member"+member);
-		if(member.getId()==null) {
-			return false;
-		}
-		System.out.println("db pw"+passwordEncoder.matches(member.getMemberPw(), member.getMemberPw()));
-		System.out.println("pw"+dto.getMemberPw());
+		Member member = memberRepo.findByMemberId(dto.getMemberId()).orElseThrow(()-> new EntityNotFoundException("존재하는 계정이 없습니다."));	
 		return passwordEncoder.matches( dto.getMemberPw(), member.getMemberPw());
+		
 	}
 
 	public void createMem(MemberRequestDto dto) {

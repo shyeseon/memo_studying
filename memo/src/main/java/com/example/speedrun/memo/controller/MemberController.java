@@ -1,5 +1,6 @@
 package com.example.speedrun.memo.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/login")
-	public String login(@RequestBody MemberRequestDto dto) {
+	public ResponseEntity<?> login(@RequestBody MemberRequestDto dto) {
 		boolean exist = memberService.findmem(dto);
-		System.out.println("exist"+exist);
 		return exist? "success":"fail";
 	}
 	@RequestMapping("/signUp")
